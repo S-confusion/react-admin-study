@@ -1,0 +1,29 @@
+$color1: #cec;
+
+body {
+    background-color: $color1;
+    user-select: none
+}
+
+.img {
+    -webkit-user-drag: none;
+}
+
+.demo-logo-vertical {
+    width: 100px;
+    height: 40px;
+}
+
+.layout {}
+
+.container {
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+}
+
+.router-component {
+    margin: 16px 16px 0;
+    background: #ccc;
+    width: calc(100% - 32px);
+    min-height: calc(100% - 64px);
+}
