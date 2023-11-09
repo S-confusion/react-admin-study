@@ -4,7 +4,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import reduxThunk from "redux-thunk";
 
 // 创建的自定义reducer
-import userReducer from "./modules/user";
+import userReducer from "./modules/user/reducer";
 
 // combineReducers合并reducer
 const reducer = combineReducers({

@@ -8,6 +8,7 @@ const withLazy = (Component) => (
 import Home from "@/views/Home";
 import Login from "@/views/Login";
 const About = lazy(() => import("@/views/About"));
+const ChartsBoard = lazy(() => import("@/views/ChartsBoard"));
 const Page1 = lazy(() => import("@/views/Page1"));
 const Page2 = lazy(() => import("@/views/Page2"));
 const Page301 = lazy(() => import("@/views/Page301"));
@@ -22,6 +23,10 @@ const routes = [
         path: "/page1",
         element: withLazy(<Page1 />),
         meta: { test: 234 },
+      },
+      {
+        path: "/chartsBoard",
+        element: withLazy(<ChartsBoard />),
       },
       {
         path: "/page2",

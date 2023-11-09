@@ -2,7 +2,7 @@ import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, message } from "antd";
 import { useDispatch } from "react-redux";
-import { login } from "@/store/modules/user";
+import { login } from "@/store/modules/user/action.js";
 import styles from "./login.module.scss";
 import { isPhone } from "@/utils/validator.js";
 import { useNavigate } from "react-router-dom";

@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Popconfirm, Button, Layout, Menu } from "antd";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { setToken, setUser, getUser } from "@/store/modules/user";
+import { setToken, setUser, getUser } from "@/store/modules/user/action.js";
 import styles from "./home.module.scss";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -24,6 +24,7 @@ function getItem(label, key, icon, children) {
 
 const items = [
   getItem("页面1", "/page1", <PieChartOutlined />),
+  getItem("echarts看板", "/chartsBoard", <DesktopOutlined />),
   getItem("页面2", "/page2", <DesktopOutlined />),
   getItem("页面组", "page3", <UserOutlined />, [
     getItem("页面301", "/page3/page301"),
