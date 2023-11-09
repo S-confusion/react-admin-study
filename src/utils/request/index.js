@@ -4,6 +4,9 @@ import axios from "axios";
 // import QS from "qs";
 //antd的message提示组件，大家可根据自己的ui组件更改。
 import { message } from "antd";
+
+import { store } from "@/store/index.js";
+console.log(store, "store");
 //保存环境变量
 const isProduction = process.env.NODE_ENV == "production";
 

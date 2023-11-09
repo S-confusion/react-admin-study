@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   DesktopOutlined,
@@ -6,10 +6,11 @@ import {
   PieChartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Popconfirm, Button, Layout, Menu, theme } from "antd";
+import { Popconfirm, Button, Layout, Menu } from "antd";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { setToken, setUser } from "@/store/modules/user";
+import { setToken, setUser, getUser } from "@/store/modules/user";
 import styles from "./home.module.scss";
+
 const { Header, Content, Footer, Sider } = Layout;
 
 function getItem(label, key, icon, children) {
@@ -39,9 +40,8 @@ const Home = () => {
   const currentRoute = useLocation();
   const routeStand = currentRoute.pathname.split("/");
   const [openKeys, setOpenKeys] = useState(routeStand);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const { token } = useSelector((state) => state.userReducer);
+
   const { user } = useSelector((state) => state.userReducer);
 
   // 点击导航
@@ -54,6 +54,11 @@ const Home = () => {
   const handleOpenChange = (keys) => {
     setOpenKeys([keys[keys.length - 1]]);
   };
+
+  useEffect(() => {
+    token && dispatch(getUser());
+  }, [token]);
+
   // 退出登录
   const logout = () => {
     // 清除token
@@ -84,7 +89,6 @@ const Home = () => {
           className="header"
           style={{
             padding: 0,
-            background: colorBgContainer,
             paddingLeft: "16px",
           }}
         >
