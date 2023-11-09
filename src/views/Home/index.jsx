@@ -1,21 +1,18 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Popconfirm, Button, Layout, Menu, theme } from "antd";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { setToken, setUser } from "@/store/modules/user";
+import styles from "./home.module.scss";
 const { Header, Content, Footer, Sider } = Layout;
 
-function getItem(
-  label,
-  key,
-  icon,
-  children
-) {
+function getItem(label, key, icon, children) {
   return {
     key,
     icon,
@@ -36,22 +33,20 @@ const items = [
 
 const Home = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const navigateTo = useNavigate();
+  const navigator = useNavigate();
+  const dispatch = useDispatch();
   // 初始化路由
   const currentRoute = useLocation();
   const routeStand = currentRoute.pathname.split("/");
   const [openKeys, setOpenKeys] = useState(routeStand);
-
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const { user } = useSelector((state) => state.userReducer);
 
-  const { userInfo } = useSelector((state) => ({
-    userInfo: state.reducerUser.userInfo,
-  }));
   // 点击导航
   const handleMenu = (e) => {
-    navigateTo(e.key);
+    navigator(e.key);
   };
 
   // console.log(currentRoute, "currentRoute");
@@ -59,14 +54,21 @@ const Home = () => {
   const handleOpenChange = (keys) => {
     setOpenKeys([keys[keys.length - 1]]);
   };
+  // 退出登录
+  const logout = () => {
+    // 清除token
+    dispatch(setToken(null));
+    dispatch(setUser({}));
+    // 清除登录信息
+    navigator("/login");
+  };
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout className={styles.root} style={{ minHeight: "100vh" }}>
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
-        <div className="demo-logo-vertical">logo</div>
         <Menu
           theme="dark"
           defaultSelectedKeys={[currentRoute.pathname]}
@@ -79,17 +81,25 @@ const Home = () => {
       </Sider>
       <Layout className="layout">
         <Header
+          className="header"
           style={{
             padding: 0,
             background: colorBgContainer,
             paddingLeft: "16px",
           }}
         >
-          <Breadcrumb style={{ lineHeight: "64px" }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
-          <div className="user--area">{userInfo.userName}</div>
+          <div className="user-area">
+            <div className="user-name">{user?.mobile}</div>
+            <Popconfirm
+              placement="bottom"
+              title="Are you sure to logout?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => logout()}
+            >
+              <Button>退出登录</Button>
+            </Popconfirm>
+          </div>
         </Header>
         <div className="container">
           <Content className="router-component">

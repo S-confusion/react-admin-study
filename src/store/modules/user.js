@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import service from "@/utils/request";
-const store = createSlice({
+
+const userSlice = createSlice({
   name: "user",
   initialState: {
     user: {},
@@ -12,10 +13,11 @@ const store = createSlice({
     },
     setToken(state, action) {
       state.token = action.payload;
+      localStorage.setItem("react_vite-js_token", action.payload);
     },
   },
 });
-const { setUser, setToken } = store.actions;
+const { setUser, setToken } = userSlice.actions;
 
 const login = (params) => {
   return async (dispatch) => {
@@ -23,5 +25,14 @@ const login = (params) => {
     dispatch(setToken(res.data.token));
   };
 };
-export { setUser, setToken, login };
-export default store.reducer;
+
+const getUser = () => {
+  return async (dispatch) => {
+    const res = await service.get("/user/profile");
+    dispatch(setUser(res.data));
+  };
+};
+
+export { setUser, setToken, login, getUser };
+
+export default userSlice.reducer;

@@ -13,7 +13,7 @@ const Login = () => {
   const onFinish = async (values) => {
     // console.log("Received values of form: ", values);
     await dispatch(login(values));
-    // navigator("/page1");
+    navigator("/page1");
     message.success("登录成功");
   };
   return (

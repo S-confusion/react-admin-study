@@ -5,11 +5,9 @@ import "@/assets/styles/global.scss";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 // 持久化存储
-import store from "@/store";
-import { persistStore } from "redux-persist";
+import { store, persistor } from "@/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-let persistor = persistStore(store);
 
 // render
 ReactDOM.createRoot(document.getElementById("root")).render(

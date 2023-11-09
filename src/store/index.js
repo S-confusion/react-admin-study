@@ -1,14 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-import { combineReducers } from "redux";
-import { persistReducer } from "redux-persist";
-import thunk from "redux-thunk";
+import { persistStore, persistReducer } from "redux-persist";
+import reduxThunk from "redux-thunk";
 
 // 创建的自定义reducer
 import userReducer from "./modules/user";
 
 // combineReducers合并reducer
-const reducers = combineReducers({
+const reducer = combineReducers({
   userReducer,
 });
 
@@ -19,12 +18,14 @@ const persistConfig = {
   blacklist: [],
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const persistedReducer = persistReducer(persistConfig, reducer);
 
-const store = configureStore({
+// 创建 store
+export const store = configureStore({
   reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== "production",
-  middleware: [thunk],
+  middleware: [reduxThunk],
 });
+export const persistor = persistStore(store);
 
-export default store;
+export default { store, persistor };
